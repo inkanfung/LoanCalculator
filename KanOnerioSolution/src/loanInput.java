@@ -9,7 +9,6 @@ The input for the loan should contain:
 
 */
 
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 

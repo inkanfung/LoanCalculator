@@ -1,14 +1,11 @@
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 /*
 The output should contain the following:
 
 A) A data structure containing the daily accrued interest for each day between the start and end date of the loan:
-1)  Daily Interest accrual amount
-2) Number of days elapsed until the until the accrued date
+1) Daily Interest accrual amount
+2) Number of days elapsed until the accrued date
 3) Daily Interest Amount without margin
-4)  Daily Interest Amount with margin
+4) Daily Interest Amount with margin
 5) Accrual Date
 
 B) An element containing the total interest calculated over the given period.
@@ -16,6 +13,10 @@ B) An element containing the total interest calculated over the given period.
 Use the simple interest formula provided here: https://www.investopedia.com/terms/s/simple_interest.asp
 
 */
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 public class loanOutput {
 
     private BigDecimal dailyInterestAccrual;
