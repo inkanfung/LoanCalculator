@@ -34,9 +34,19 @@ public class loanCalculator {
             //calculate the daily interest with margin by adding the margin to the base interest rate before passing it to the calculateSimpleInterest
             BigDecimal dailyInterestWithMargin = calculateSimpleInterest(LoanInput.getLoanAmount(), LoanInput.getBaseInterestRate().add(LoanInput.getMargin()), daysElapsed);
 
+            //calculate the daily interest accrual by subtracting the daily interest without margin from the daily interest with margin
+            BigDecimal dailyInterestAccrual = dailyInterestWithMargin.subtract(dailyInterestWithoutMargin);
+
+            //LoanOutput object with the calculated values and the currentDate, and add it to the loanOutputs list
+            loanOutput LoanOutput = new loanOutput(dailyInterestAccrual, daysElapsed, dailyInterestWithoutMargin, dailyInterestWithMargin, currentDate);
+            loanOutputList.add(LoanOutput);
+
+            //increment the currentDate by 1 day before the next iteration of the loop
+            currentDate = currentDate.plusDays(1);
+
         }
 
-
+        //objects containing the daily interest calculations
         return loanOutputList;
     }
 
@@ -45,11 +55,10 @@ public class loanCalculator {
     //adjusted formula for daily is: Daily Interest = Principal * (Daily Interest Rate)
     //To compute the daily interest rate, we divide the annual interest rate (including the margin) by the number of days in a year (assuming 365 days)
     //Daily Interest Rate = (Base Interest Rate + Margin) / 100 * 365
-    private static BigDecimal calculateSimpleInterest(BigDecimal loanAmount, BigDecimal baseInterestRate, int daysElapsed) {
-        //TODO Auto-generated method stub
-
-
-        return null;
+    private static BigDecimal calculateSimpleInterest(BigDecimal principal, BigDecimal rate, int time) {
+        // multiplies the principal amount, interest rate, and time together, then divides the result by 100 and 365 to get the simple interest value.
+        // The division is rounded to 2 decimal places using the BigDecimal.ROUND_HALF_UP rounding mode
+        return principal.multiply(rate).multiply(BigDecimal.valueOf(time)).divide(BigDecimal.valueOf(100 * 365), 2, BigDecimal.ROUND_HALF_UP);
     }
 
 
