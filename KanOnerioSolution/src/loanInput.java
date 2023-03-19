@@ -7,6 +7,10 @@ The input for the loan should contain:
 4. Base Interest Rate (as percentage)
 5. Margin (as percentage)
 
+Non-functional nice to haves
+The system should produce error messages when the imputed data is incorrect
+Easy to read, maintainable and testable code
+
 */
 
 import java.math.BigDecimal;
@@ -76,6 +80,25 @@ public class loanInput {
 
     public void setMargin(BigDecimal margin) {
         this.margin = margin;
+    }
+
+    //Error handling: Add validation to the LoanInput class to check for invalid input data
+    public void validate() throws IllegalArgumentException {
+        if(startDate == null || endDate == null) {
+            throw new IllegalArgumentException("Start and end dates must be provided.");
+        }
+        if(endDate.isBefore(startDate)) {
+            throw new IllegalArgumentException("End date must be after start date.");
+        }
+        if(loanAmount == null || loanAmount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Loan amount must be greater than zero.");
+        }
+        if(baseInterestRate == null || baseInterestRate.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Base interest rate must be non-negative.");
+        }
+        if(margin == null || margin.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Margin must be non-negative.");
+        }
     }
 
 }
