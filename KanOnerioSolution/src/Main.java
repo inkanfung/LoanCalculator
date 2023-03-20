@@ -52,6 +52,49 @@ public class Main {
             System.err.println(e.getMessage());
 
         }
+
+        //print new line
+        System.out.println();
+
+        loanInput LoanInput1 = new loanInput(LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31), BigDecimal.valueOf(10000), "USD", BigDecimal.valueOf(4.5), BigDecimal.valueOf(1.5));
+        List<loanOutput> LoanOutputs1 = loanCalculator.interestCalculator(LoanInput1);
+
+        // Add the first loan calculation to the history
+        LoanHistory.addCalculation(LoanInput1, LoanOutputs1);
+
+        // Calculate the interest for the second loan
+        loanInput LoanInput2 = new loanInput(LocalDate.of(2023, 2, 1), LocalDate.of(2023, 2, 28), BigDecimal.valueOf(15000), "USD", BigDecimal.valueOf(3.5), BigDecimal.valueOf(1.0));
+        List<loanOutput> LoanOutputs2 = loanCalculator.interestCalculator(LoanInput2);
+
+        // Add the second loan calculation to the history
+        LoanHistory.addCalculation(LoanInput2, LoanOutputs2);
+
+        // Retrieve the history of loan calculations
+        List<loanCalculations> LoanCalculations = LoanHistory.getLoanCalculationList();
+
+        // Print the history of loan calculations
+        for (loanCalculations LoanCalculation : LoanCalculations) {
+            System.out.println("Loan Input: " + LoanCalculation.getLoanInput());
+            System.out.println("Loan Outputs: " + LoanCalculation.getLoanOutputList());
+        }
+
+        // Delete a calculation from the history
+        LoanHistory.deleteCalculation(0);
+
+        // Modify and rerun a calculation
+        loanInput modifiedLoanInput = new loanInput(LocalDate.of(2023, 3, 1), LocalDate.of(2023, 3, 31), BigDecimal.valueOf(20000), "USD", BigDecimal.valueOf(3.0), BigDecimal.valueOf(1.5));
+        LoanHistory.modifyAndRerunCalculation(0, modifiedLoanInput);
+
+        // Retrieve and print the updated history of loan calculations
+        LoanCalculations = LoanHistory.getLoanCalculationList();
+        for (loanCalculations LoanCalculation : LoanCalculations) {
+            System.out.println("Loan Input: " + LoanCalculation.getLoanInput());
+            System.out.println("Loan Outputs: " + LoanCalculation.getLoanOutputList());
+        }
+
+
+
+
     }
 
 }

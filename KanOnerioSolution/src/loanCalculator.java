@@ -68,4 +68,12 @@ public class loanCalculator {
         return principal.multiply(rate).multiply(BigDecimal.valueOf(time)).divide(BigDecimal.valueOf(100 * 365), 2, BigDecimal.ROUND_HALF_UP);
     }
 
+    public static BigDecimal getTotalInterest(List<loanOutput> loanOutputList) {
+        BigDecimal totalInterest = BigDecimal.ZERO;
+        for (loanOutput output : loanOutputList) {
+            totalInterest = totalInterest.add(output.getDailyInterestAccrual());
+        }
+        return totalInterest;
+    }
+
 }
