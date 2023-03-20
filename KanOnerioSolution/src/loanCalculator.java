@@ -39,13 +39,16 @@ public class loanCalculator {
             //The dailyInterestAmountWithoutMargin is also calculated for reference.
 
             //calculate the daily interest without margin by calling calculateSimpleInterest with the loan amount, base interest rate, and days elapsed
-            BigDecimal dailyInterestWithoutMargin = calculateSimpleInterest(LoanInput.getLoanAmount(), LoanInput.getBaseInterestRate(), daysElapsed);
+            BigDecimal dailyInterestWithoutMargin = calculateSimpleInterest(LoanInput.getLoanAmount(), LoanInput.getBaseInterestRate(), 1);
 
             //calculate the daily interest with margin by adding the margin to the base interest rate before passing it to the calculateSimpleInterest
-            BigDecimal dailyInterestWithMargin = calculateSimpleInterest(LoanInput.getLoanAmount(), LoanInput.getBaseInterestRate().add(LoanInput.getMargin()), daysElapsed);
+            BigDecimal dailyInterestWithMargin = calculateSimpleInterest(LoanInput.getLoanAmount(), LoanInput.getBaseInterestRate().add(LoanInput.getMargin()), 1);
 
 
-            BigDecimal dailyInterestAccrual = dailyInterestWithMargin.subtract(dailyInterestWithoutMargin);
+            //2 mistakes that I made that needs to be mentioned:
+            //1. I subtracted dailyInterestWithOutMargin from dailyInterestWithMargin which resulted a incorrect dailyInterestAccrual value
+            //2. both dailyInterestWithoutMargin and dailyInterestWithMargin are calculated using the same number of days elapsed, which is 1 I used dayElapsed
+            BigDecimal dailyInterestAccrual = dailyInterestWithMargin;
 
             //LoanOutput object with the calculated values and the currentDate, and add it to the loanOutputs list
             loanOutput LoanOutput = new loanOutput(dailyInterestAccrual, daysElapsed, dailyInterestWithoutMargin, dailyInterestWithMargin, currentDate);

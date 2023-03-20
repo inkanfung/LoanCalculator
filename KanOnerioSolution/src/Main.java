@@ -30,7 +30,7 @@ public class Main {
             //Access the history of past calculations, delete, or modify/re-run using the loanHistoryManager object
             LoanHistory.addCalculation(LoanInput, loanOutputList);
 
-            BigDecimal totalInterest = BigDecimal.ZERO;
+            BigDecimal totalInterest = loanCalculator.getTotalInterest(loanOutputList);
 
             System.out.println("Daily Interest Accrual | Days Elapsed | Daily Interest without Margin | Daily Interest with Margin | Accrual Date");
 
@@ -44,7 +44,6 @@ public class Main {
                         LoanOutput.getAccrualDate()
                 );
 
-                totalInterest = totalInterest.add(LoanOutput.getDailyInterestAccrual());
             }
 
             System.out.printf("Total Interest: %.2f%n", totalInterest);
