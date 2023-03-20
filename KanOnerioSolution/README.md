@@ -32,6 +32,26 @@ A simple Java-based Loan Interest Calculator for bank customers.
 
 This calculator computes the daily interest accruals and total interest for a loan, given the start and end dates, loan amount, loan currency, base interest rate, and margin.
 
+Lets say you have Input Loan Object:
+
+Start date: 2023-03-15
+End date: 2023-04-15
+Loan amount: 10,000 USD
+Base interest rate: 5% per year
+Margin: 1% per year
+
+Total annual interest rate = base interest rate + margin = 5% + 1% = 6%
+
+Daily interest rate = Total annual interest rate / 365 = 6% / 365 = 0.00016438356 (rounded to 14 decimal places)
+
+Daily interest amount = Loan amount * daily interest rate = 10,000 * 0.00016438356 = 1.6438356 (rounded to 7 decimal places)
+
+Total interest = Daily interest amount * loan period = 1.6438356 * 32 = 52.6027392 (rounded to 7 decimal places)
+
+Rounded daily interest amount = 1.64
+
+Total interest = Rounded daily interest amount * loan period = 1.64 * 32 = 52.48
+
 # Features
 Calculates daily accrued interest for each day between the start and end date of the loan.
 
