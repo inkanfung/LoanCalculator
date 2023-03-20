@@ -1,3 +1,5 @@
+# Terminologies to Understand
+
 # Loan Interest Calculator
 A simple Java-based Loan Interest Calculator for bank customers. 
 
