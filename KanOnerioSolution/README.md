@@ -1,4 +1,31 @@
 # Terminologies to Understand
+Start and End Date of the Loan: 
+The beginning and ending dates of the loan period. The calculator computes interest for each day between these two dates.
+
+Loan Amount: 
+The principal amount borrowed. This is the initial sum of money that the borrower owes to the lender.
+
+Loan Currency: 
+The currency in which the loan is denominated, such as USD, EUR, or GBP. The interest calculation will be in the same currency.
+
+Base Interest Rate: 
+The percentage used in the interest calculation that represents the cost of borrowing the loan amount. It is the primary component of the interest rate charged on the loan.
+
+Margin: 
+An additional percentage added to the base interest rate. This represents the lender's profit or compensation for the risk of lending.
+
+Daily Interest accrual amount: 
+The interest accrued on the loan for each specific day.
+
+Number of days elapsed until the accrued date: 
+The total number of days passed since the start date of the loan until the current accrual date.
+
+Daily Interest Amount without margin: 
+The interest amount calculated using only the base interest rate, without considering the margin.
+
+Daily Interest Amount with margin: 
+The interest amount calculated using both the base interest rate and the margin.
+Accrual Date: The specific date on which the interest accrual is calculated.
 
 # Loan Interest Calculator
 A simple Java-based Loan Interest Calculator for bank customers. 
