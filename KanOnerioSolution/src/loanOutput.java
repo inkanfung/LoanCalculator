@@ -19,12 +19,27 @@ import java.time.LocalDate;
 
 public class loanOutput {
 
+    //represent decimal numbers with arbitrary precision
+    //work with very large or very small numbers without losing accuracy
+    //important in financial applications
+    //rounding errors and inaccuracies can lead to significant discrepancies over time or in large-scale calculations
     private BigDecimal dailyInterestAccrual;
     private int daysElapsed;
+
+    //provides control over the rounding mode when performing arithmetic operations
+    //allows you to handle rounding in a predictable and consistent manner
+    //crucial for financial calculations where specific rounding rules might apply
     private BigDecimal dailyInterestWithoutMargin;
+
+    //objects are immutable
+    //prevent unintended side effects
+    //make code more robust
     private BigDecimal dailyInterestWithMargin;
     private LocalDate accrualDate;
 
+    //float or double primitive types for financial calculations can lead to inaccuracies and rounding errors due to their limited precision
+    //they represent decimal numbers in a binary format (IEEE 754 floating-point standard)
+    //This can cause unexpected behavior and lead to incorrect results
     public loanOutput(BigDecimal dailyInterestAccrual, int daysElapsed, BigDecimal dailyInterestWithoutMargin, BigDecimal dailyInterestWithMargin, LocalDate accrualDate) {
         this.dailyInterestAccrual = dailyInterestAccrual;
         this.daysElapsed = daysElapsed;

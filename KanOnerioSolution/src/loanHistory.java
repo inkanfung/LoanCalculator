@@ -27,6 +27,9 @@ public class loanHistory {
 
     //removes a loan calculation at the specified index
     public void deleteCalculation(int index){
+        if (index < 0 || index >= loanCalculationsList.size()) {
+            throw new IllegalArgumentException("Invalid index value. Index out of bounds.");
+        }
         loanCalculationsList.remove(index);
     }
 
@@ -34,6 +37,9 @@ public class loanHistory {
     //creates a new LoanCalculation object
     //replaces the old calculation with the new one in the loanCalculations list
     public void modifyAndRerunCalculation(int index, loanInput newLoanInput){
+        if (index < 0 || index >= loanCalculationsList.size()) {
+            throw new IllegalArgumentException("Invalid index value. Index out of bounds.");
+        }
         List<loanOutput> newLoanOutputList = loanCalculator.interestCalculator(newLoanInput);
         loanCalculations newCalculation = new loanCalculations(newLoanInput, newLoanOutputList);
         loanCalculationsList.set(index, newCalculation);
