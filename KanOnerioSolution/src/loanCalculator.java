@@ -20,8 +20,6 @@ public class loanCalculator {
 
         LocalDate currentDate = LoanInput.getStartDate();
 
-        BigDecimal totalInterestWithoutMargin = BigDecimal.ZERO;
-        BigDecimal totalInterestWithMargin = BigDecimal.ZERO;
 
         //loop that iterates through each day between the start and end dates (inclusive)
         //performs calculations for each day
