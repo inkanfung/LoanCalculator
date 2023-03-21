@@ -272,22 +272,33 @@ public class InterestRateTimeseries {
     This will allow to use real-world data in your calculations.
     
     The Federal Reserve Economic Data (FRED) is a vast database of economic data provided by the Federal Reserve Bank of St. Louis. 
+    
     It contains data on interest rates, exchange rates, GDP, inflation, and much more...
     
     FRED API = https://api.stlouisfed.org/fred/series/observations?series_id=FEDFUNDS&api_key=YOUR_API_KEY&file_type=json
     
-    Once fetched the data, advised to parse the JSON response and store the base interest rates in a NavigableMap
+    Once fetched the data, advised to parse the JSON response and store the base interest rates in a NavigableMap.
+    
     FRED API has rate limits cache the results to avoid hitting those limits frequently. 
+    
     Additionally, you should handle errors and edge cases, such as missing data or API downtimes.
+    
     By using the FRED API, you can make your loan interest calculator more accurate and up-to-date with real-world data.
+    
+    
     
     Example Implementation: 
     
-    public NavigableMap<LocalDate, BigDecimal> fetchBaseInterestRates(String seriesId, String apiKey) {
+    
+    public NavigableMap<LocalDate, BigDecimal> fetchBaseInterestRates(String seriesId, String apiKey) 
+    {
+    
     // Build the URL for the FRED API request
+    
     String urlString = String.format("https://api.stlouisfed.org/fred/series/observations?series_id=%s&api_key=%s&file_type=json", seriesId, apiKey);
 
     // Use the Apache HttpClient to send a GET request to the FRED API
+    
     HttpClient httpClient = HttpClientBuilder.create().build();
     HttpGet httpGet = new HttpGet(urlString);
     HttpResponse httpResponse;
@@ -319,12 +330,14 @@ public class InterestRateTimeseries {
     }
 }
 
+                                                                                                   
 Things to pass to the Param and example of calling the method:                                                                                                   
                                                                                                    
 String seriesId = "IR14266";
 String apiKey = "YOUR_API_KEY";
 NavigableMap<LocalDate, BigDecimal> ukBaseInterestRates = fetchBaseInterestRates(seriesId, apiKey);
 
+    
 
 Adding support for other financial products, such as credit cards, using a modular approach.
 
