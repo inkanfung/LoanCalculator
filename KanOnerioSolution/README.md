@@ -235,10 +235,95 @@ baseInterestRates.put(LocalDate.of(2020, 7, 1), BigDecimal.valueOf(2.0));
 baseInterestRates.put(LocalDate.of(2021, 1, 1), BigDecimal.valueOf(1.5));
 baseInterestRates.put(LocalDate.of(2021, 6, 1), BigDecimal.valueOf(1.75));
 
-look up the base interest rate for the current date using the floorEntry(date) method. 
-This method returns the most recent entry with a key less than or equal to the specified date.
+look up the base interest rate for the current date using the floorEntry/floorKey(date) method.
+Both have a time complexity of O(log n), 
+    where n is the number of entries in the map. 
+    The only difference is that floorEntry() returns the entire entry (key-value pair), whereas floorKey() returns just the key.
+(support the later question)
+    
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
+public class InterestRateTimeseries {
 
+    private static final NavigableMap<LocalDate, BigDecimal> BASE_INTEREST_RATES;
+
+    static {
+        BASE_INTEREST_RATES = new TreeMap<>();
+        BASE_INTEREST_RATES.put(LocalDate.of(2021, 1, 1), BigDecimal.valueOf(0.5));
+        BASE_INTEREST_RATES.put(LocalDate.of(2021, 6, 1), BigDecimal.valueOf(0.6));
+        BASE_INTEREST_RATES.put(LocalDate.of(2022, 1, 1), BigDecimal.valueOf(0.7));
+    }
+
+    public static BigDecimal getBaseInterestRate(LocalDate date) {
+        LocalDate rateEffectiveDate = BASE_INTEREST_RATES.floorKey(date);
+        if (rateEffectiveDate == null) {
+            throw new IllegalArgumentException("No base interest rate data available for the given date.");
+        }
+        return BASE_INTEREST_RATES.get(rateEffectiveDate);
+    }
+}
+
+3. To elaborate on Navigable Map solution its better than Map solution but in terms of time complexity but is also prone to input errors
+    So I again looked at available APIs: fetch historical base interest rates from an external data source or API, 
+    like the FRED (Federal Reserve Economic Data) or the European Central Bank's Statistical Data Warehouse. 
+    This will allow to use real-world data in your calculations.
+    
+    The Federal Reserve Economic Data (FRED) is a vast database of economic data provided by the Federal Reserve Bank of St. Louis. 
+    It contains data on interest rates, exchange rates, GDP, inflation, and much more...
+    
+    FRED API = https://api.stlouisfed.org/fred/series/observations?series_id=FEDFUNDS&api_key=YOUR_API_KEY&file_type=json
+    
+    Once fetched the data, advised to parse the JSON response and store the base interest rates in a NavigableMap
+    FRED API has rate limits cache the results to avoid hitting those limits frequently. 
+    Additionally, you should handle errors and edge cases, such as missing data or API downtimes.
+    By using the FRED API, you can make your loan interest calculator more accurate and up-to-date with real-world data.
+    
+    Example Implementation: 
+    
+    public NavigableMap<LocalDate, BigDecimal> fetchBaseInterestRates(String seriesId, String apiKey) {
+    // Build the URL for the FRED API request
+    String urlString = String.format("https://api.stlouisfed.org/fred/series/observations?series_id=%s&api_key=%s&file_type=json", seriesId, apiKey);
+
+    // Use the Apache HttpClient to send a GET request to the FRED API
+    HttpClient httpClient = HttpClientBuilder.create().build();
+    HttpGet httpGet = new HttpGet(urlString);
+    HttpResponse httpResponse;
+
+    try {
+        httpResponse = httpClient.execute(httpGet);
+        HttpEntity httpEntity = httpResponse.getEntity();
+        String responseString = EntityUtils.toString(httpEntity, StandardCharsets.UTF_8);
+
+        // Parse the JSON response and store the base interest rates in a NavigableMap
+        JSONObject jsonResponse = new JSONObject(responseString);
+        JSONArray observations = jsonResponse.getJSONArray("observations");
+
+        NavigableMap<LocalDate, BigDecimal> baseInterestRates = new TreeMap<>();
+
+        for (int i = 0; i < observations.length(); i++) {
+            JSONObject observation = observations.getJSONObject(i);
+            LocalDate date = LocalDate.parse(observation.getString("date"));
+            BigDecimal value = new BigDecimal(observation.getString("value"));
+
+            baseInterestRates.put(date, value);
+        }
+
+        return baseInterestRates;
+
+    } catch (IOException e) {
+        e.printStackTrace();
+        throw new RuntimeException("Error fetching base interest rates from FRED API", e);
+    }
+}
+
+Things to pass to the Param and example of calling the method:                                                                                                   
+                                                                                                   
+String seriesId = "IR14266";
+String apiKey = "YOUR_API_KEY";
+NavigableMap<LocalDate, BigDecimal> ukBaseInterestRates = fetchBaseInterestRates(seriesId, apiKey);
 
 
 Adding support for other financial products, such as credit cards, using a modular approach.
