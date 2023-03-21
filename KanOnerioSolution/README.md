@@ -27,6 +27,10 @@ Daily Interest Amount with margin:
 The interest amount calculated using both the base interest rate and the margin.
 Accrual Date: The specific date on which the interest accrual is calculated.
 
+Syndicated Loan:
+A type of loan where multiple financial institutions, also known as lenders or participants, come together to provide funds to a single borrower. 
+The main goal of a syndicated loan is to spread the risk associated with lending a large sum of money across multiple lenders.
+
 # Loan Interest Calculator
 A simple Java-based Loan Interest Calculator for bank customers. 
 
@@ -70,6 +74,7 @@ Clone or download the repository to your local machine.
 Open the project in your favorite Java IDE or build tool (e.g., IntelliJ IDEA, Eclipse, or Maven).
 
 Ensure you have Java 8 or later installed on your system.
+
 Run the Main class, which contains the sample usage of the LoanCalculator.
 
 The loanOutputs list will contain the daily accrued interest details for each day between the start and end date of the loan.
