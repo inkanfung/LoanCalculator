@@ -82,6 +82,109 @@ The loanOutputs list will contain the daily accrued interest details for each da
 # Project Extension Ideas
 
 Handling non-business days (weekends and bank holidays) for the start and end dates of the loan.
+1. I was thinking brute force method first maybe HardCode the dates into a set in the inputLoans object/beans E.g.
+
+private boolean isBusinessDay(LocalDate date) {
+    // Check if the date is a weekend (Saturday or Sunday)
+    DayOfWeek dayOfWeek = date.getDayOfWeek();
+    if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
+        return false;
+    }
+
+    // Check if the date is a holiday
+    Set<LocalDate> holidays = getHolidays();
+    if (holidays.contains(date)) {
+        return false;
+    }
+
+    return true;
+}
+
+private Set<LocalDate> getHolidays() {
+    Set<LocalDate> holidays = new HashSet<>();
+
+    // Add holidays here (e.g., New Year's Day)
+    holidays.add(LocalDate.of(startDate.getYear(), 1, 1));
+    holidays.add(LocalDate.of(endDate.getYear(), 1, 1));
+
+    // Add more holidays as needed
+
+    return holidays;
+}
+
+Plus a validation in the validate method:
+  
+  public void validate() throws IllegalArgumentException {
+    // ...
+
+    if (!isBusinessDay(startDate)) {
+        throw new IllegalArgumentException("Start date must be a business day.");
+    }
+
+    if (!isBusinessDay(endDate)) {
+        throw new IllegalArgumentException("End date must be a business day.");
+    }
+}
+
+2. The previous method is convenient but is very prone to errors from human/input users. So we can maybe call some external API which I did dive on:
+ 
+  Nager.Date API (https://date.nager.at/): Nager.Date is a free, open-source API that provides information about public holidays for various countries. You can find more details and documentation at https://date.nager.at/swagger/index.html.
+
+  Enrico Service (https://kayaposoft.com/enrico/): Enrico Service is a free API that provides public holiday information for countries in Europe. You can find more information and documentation at https://kayaposoft.com/enrico/.
+
+  Calendarific API (https://calendarific.com/): Calendarific is a global holiday API that provides information about holidays and observances for more than 200 countries. They offer both free and paid plans with varying limits on the number of API calls. You can find more information and documentation at https://calendarific.com/.
+  
+In java we can use java.net.HttpURLConnection:
+  
+  import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class HolidayAPI {
+
+    public static void main(String[] args) {
+        String countryCode = "GB";
+        int year = 2023;
+
+        try {
+            String jsonResponse = getHolidays(countryCode, year);
+            System.out.println(jsonResponse);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getHolidays(String countryCode, int year) throws IOException {
+        String urlString = "https://date.nager.at/api/v3/publicholidays/" + year + "/" + countryCode;
+        URL url = new URL(urlString);
+
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(5000);
+
+        int responseCode = connection.getResponseCode();
+
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuilder content = new StringBuilder();
+
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+
+            in.close();
+            connection.disconnect();
+            return content.toString();
+        } else {
+            throw new IOException("Failed to get holidays, response code: " + responseCode);
+        }
+    }
+}
 
 Incorporating a timeseries of base interest rates instead of a fixed rate.
 
