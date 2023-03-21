@@ -136,7 +136,7 @@ Plus a validation in the validate method:
   
 In java we can use java.net.HttpURLConnection:
   
-  import java.io.BufferedReader;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -187,6 +187,59 @@ public class HolidayAPI {
 }
 
 Incorporating a timeseries of base interest rates instead of a fixed rate.
+
+1. First idea that came to mind was using a Map stores the holidays as key-value pairs.
+where the key is a LocalDate object representing the date of the holiday, and the value is a String representing the name of the holiday. 
+
+import java.time.LocalDate;
+import java.util.Map;
+import java.util.HashMap;
+
+public class HolidayCalendar {
+
+    private static final Map<LocalDate, String> HOLIDAYS = new HashMap<>();
+
+    static {
+        HOLIDAYS.put(LocalDate.of(2023, 1, 1), "New Year's Day");
+        HOLIDAYS.put(LocalDate.of(2023, 4, 14), "Good Friday");
+        HOLIDAYS.put(LocalDate.of(2023, 4, 17), "Easter Monday");
+        HOLIDAYS.put(LocalDate.of(2023, 5, 1), "May Day");
+        HOLIDAYS.put(LocalDate.of(2023, 5, 29), "Spring Bank Holiday");
+        HOLIDAYS.put(LocalDate.of(2023, 8, 28), "Summer Bank Holiday");
+        HOLIDAYS.put(LocalDate.of(2023, 12, 25), "Christmas Day");
+        HOLIDAYS.put(LocalDate.of(2023, 12, 26), "Boxing Day");
+    }
+
+    public static boolean isHoliday(LocalDate date) {
+        return HOLIDAYS.containsKey(date);
+    }
+
+    public static String getHolidayName(LocalDate date) {
+        return HOLIDAYS.get(date);
+    }
+}
+
+getHolidayName method returns the name of a holiday given its date, by looking up the corresponding value in the HOLIDAYS map.
+
+2. Deep Dive and found a more relevant solution called - NavigableMap is a SortedMap with additional functionality to navigate through the keys or entries. 
+
+The keys in this case are dates, and the values are the base interest rates.
+
+A TreeMap is a popular implementation of the NavigableMap interface. 
+
+It stores key-value pairs in a balanced binary search tree, allowing you to perform most operations in logarithmic time.
+
+NavigableMap<LocalDate, BigDecimal> baseInterestRates = new TreeMap<>();
+baseInterestRates.put(LocalDate.of(2020, 1, 1), BigDecimal.valueOf(2.5));
+baseInterestRates.put(LocalDate.of(2020, 7, 1), BigDecimal.valueOf(2.0));
+baseInterestRates.put(LocalDate.of(2021, 1, 1), BigDecimal.valueOf(1.5));
+baseInterestRates.put(LocalDate.of(2021, 6, 1), BigDecimal.valueOf(1.75));
+
+look up the base interest rate for the current date using the floorEntry(date) method. 
+This method returns the most recent entry with a key less than or equal to the specified date.
+
+
+
 
 Adding support for other financial products, such as credit cards, using a modular approach.
 
