@@ -328,13 +328,11 @@ public class InterestRateTimeseries {
     }
 }
 
-```
+
         
         
-Things to pass to the Param and example of calling the method:          
+//Things to pass to the Param and example of calling the method:          
 
-
-```java   
 
 String seriesId = "IR14266";
 String apiKey = "YOUR_API_KEY";
