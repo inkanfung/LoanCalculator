@@ -192,7 +192,7 @@ public class HolidayAPI {
 1. First idea that came to mind was using a Map stores the holidays as key-value pairs.
 where the key is a LocalDate object representing the date of the holiday, and the value is a String representing the name of the holiday. 
 
-
+```java
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.HashMap;
@@ -215,7 +215,7 @@ public class HolidayCalendar {
         return HOLIDAYS.get(date);
     }
 }
-
+```
 
 2. Deep Dive and found a more relevant solution called - NavigableMap is a SortedMap with additional functionality to navigate through the keys or entries. 
 
@@ -223,13 +223,13 @@ The keys in this case are dates, and the values are the base interest rates.
 A TreeMap is a popular implementation of the NavigableMap interface. 
 It stores key-value pairs in a balanced binary search tree, allowing you to perform most operations in logarithmic time.
 
-
+```java
 NavigableMap<LocalDate, BigDecimal> baseInterestRates = new TreeMap<>();
 baseInterestRates.put(LocalDate.of(2020, 1, 1), BigDecimal.valueOf(2.5));
 baseInterestRates.put(LocalDate.of(2020, 7, 1), BigDecimal.valueOf(2.0));
 baseInterestRates.put(LocalDate.of(2021, 1, 1), BigDecimal.valueOf(1.5));
 baseInterestRates.put(LocalDate.of(2021, 6, 1), BigDecimal.valueOf(1.75));
-
+```
 
 look up the base interest rate for the current date using the floorEntry/floorKey(date) method.
 Both have a time complexity of O(log n), 
@@ -238,7 +238,7 @@ Both have a time complexity of O(log n),
 (support the later question)
     
     
-    
+```java    
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.NavigableMap;
@@ -259,7 +259,7 @@ public class InterestRateTimeseries {
         return BASE_INTEREST_RATES.get(rateEffectiveDate);
     }
 }
-
+```
 
 3. To elaborate on Navigable Map solution its better than Map solution but in terms of time complexity but is also prone to input errors
     So I again looked at available APIs: fetch historical base interest rates from an external data source or API, 
