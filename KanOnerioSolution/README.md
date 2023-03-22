@@ -53,18 +53,27 @@ Total interest = Rounded daily interest amount * loan period = 1.64 * 32 = 52.48
 # Features
 
 - Calculates daily accrued interest for each day between the start and end date of the loan.
+
 - Provides a data structure containing the daily interest accrual amount, days elapsed, daily interest amount without margin, daily interest amount with margin, and accrual date.
+
 - Computes the total interest calculated over the given period.
+
 - Validates input data and generates error messages when the input is incorrect.
+
 - Supports simple interest calculations.
+
 - Can be extended to handle different interest rate timeseries and additional financial products.
 
 # How to Use
 
 1. Clone or download the repository to your local machine.
+
 2. Open the project in your favorite Java IDE or build tool (e.g., IntelliJ IDEA, Eclipse, or Maven).
+
 3. Ensure you have Java 8 or later installed on your system.
+
 4. Run the Main class, which contains the sample usage of the LoanCalculator.
+
 5. The loanOutputs list will contain the daily accrued interest details for each day between the start and end date of the loan.
 
 # Project Extension Ideas
@@ -128,7 +137,7 @@ Plus a validation in the validate method:
  
  - Nager.Date API (https://date.nager.at/):
 
-  Nager.Date is a free, open-source API that provides information about public holidays for various countries. You can find more details and documentation at https://date.nager.at/swagger/index.html.
+     Nager.Date is a free, open-source API that provides information about public holidays for various countries. You can find more details and documentation at           https://date.nager.at/swagger/index.html.
 
 - Enrico Service (https://kayaposoft.com/enrico/):
 
