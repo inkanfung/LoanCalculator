@@ -23,17 +23,20 @@
 - **Syndicated Loan:** A type of loan where multiple financial institutions, also known as lenders or participants, come together to provide funds to a single borrower. The main goal of a syndicated loan is to spread the risk associated with lending a large sum of money across multiple lenders.
 
 # Loan Interest Calculator
-A simple Java-based Loan Interest Calculator for bank customers. 
+
+A simple Java-based Loan Interest Calculator for bank customers.
 
 This calculator computes the daily interest accruals and total interest for a loan, given the start and end dates, loan amount, loan currency, base interest rate, and margin.
 
-Lets say you have Input Loan Object:
+**Example:**
 
-Start date: 2023-03-15
-End date: 2023-04-15
-Loan amount: 10,000 USD
-Base interest rate: 5% per year
-Margin: 1% per year
+Input Loan Object:
+
+- Start date: 2023-03-15
+- End date: 2023-04-15
+- Loan amount: 10,000 USD
+- Base interest rate: 5% per year
+- Margin: 1% per year
 
 Total annual interest rate = base interest rate + margin = 5% + 1% = 6%
 
@@ -48,16 +51,13 @@ Rounded daily interest amount = 1.64
 Total interest = Rounded daily interest amount * loan period = 1.64 * 32 = 52.48
 
 # Features
-Calculates daily accrued interest for each day between the start and end date of the loan.
 
-Provides a data structure containing the daily interest accrual amount, days elapsed, daily interest amount without margin, daily interest amount with margin, and accrual date.
-
-Computes the total interest calculated over the given period.
-
-Validates input data and generates error messages when the input is incorrect.
-Supports simple interest calculations.
-
-Can be extended to handle different interest rate timeseries and additional financial products.
+- Calculates daily accrued interest for each day between the start and end date of the loan.
+- Provides a data structure containing the daily interest accrual amount, days elapsed, daily interest amount without margin, daily interest amount with margin, and accrual date.
+- Computes the total interest calculated over the given period.
+- Validates input data and generates error messages when the input is incorrect.
+- Supports simple interest calculations.
+- Can be extended to handle different interest rate timeseries and additional financial products.
 
 # How to Use
 Clone or download the repository to your local machine.
