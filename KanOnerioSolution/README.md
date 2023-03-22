@@ -81,10 +81,11 @@ The loanOutputs list will contain the daily accrued interest details for each da
 
 # Project Extension Ideas
 
-# 1. Handling non-business days (weekends and bank holidays) for the start and end dates of the loan.
+## 1. Handling non-business days (weekends and bank holidays) for the start and end dates of the loan.
 1. I was thinking brute force method first maybe HardCode the dates into a set in the inputLoans object/beans E.g.
 
-
+<pre>
+```java
 private boolean isBusinessDay(LocalDate date) {
     // Check if the date is a weekend (Saturday or Sunday)
     DayOfWeek dayOfWeek = date.getDayOfWeek();
@@ -110,11 +111,13 @@ private Set<LocalDate> getHolidays() {
     // Add more holidays as needed
     return holidays;
 }
-
+```
+</pre>
 
 Plus a validation in the validate method:
   
-  
+<pre>
+```java  
   public void validate() throws IllegalArgumentException {
     // ...
     if (!isBusinessDay(startDate)) {
@@ -124,7 +127,8 @@ Plus a validation in the validate method:
         throw new IllegalArgumentException("End date must be a business day.");
     }
 }
-
+```
+</pre>
 
 2. The previous method is convenient but is very prone to errors from human/input users. So we can maybe call some external API which I did dive on:
  
@@ -186,7 +190,7 @@ public class HolidayAPI {
 }
 
 
-# 2. Incorporating a timeseries of base interest rates instead of a fixed rate.
+## 2. Incorporating a timeseries of base interest rates instead of a fixed rate.
 
 1. First idea that came to mind was using a Map stores the holidays as key-value pairs.
 where the key is a LocalDate object representing the date of the holiday, and the value is a String representing the name of the holiday. 
@@ -323,8 +327,8 @@ NavigableMap<LocalDate, BigDecimal> ukBaseInterestRates = fetchBaseInterestRates
 
     
 
-# 3. Adding support for other financial products, such as credit cards, using a modular approach.
+## 3. Adding support for other financial products, such as credit cards, using a modular approach.
 
-# 4. Scaling the solution to handle a large number of calculations per second.
+## 4. Scaling the solution to handle a large number of calculations per second.
 
-# 5. Improving API reliability and performance for large queries.
+## 5. Improving API reliability and performance for large queries.
