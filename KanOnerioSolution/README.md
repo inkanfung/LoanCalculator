@@ -228,9 +228,11 @@ public class HolidayCalendar {
 
 2. Deep Dive and found a more relevant solution called - NavigableMap is a SortedMap with additional functionality to navigate through the keys or entries. 
 
-The keys in this case are dates, and the values are the base interest rates.
-A TreeMap is a popular implementation of the NavigableMap interface. 
-It stores key-value pairs in a balanced binary search tree, allowing you to perform most operations in logarithmic time.
+- The keys in this case are dates, and the values are the base interest rates.
+
+- A TreeMap is a popular implementation of the NavigableMap interface. 
+
+- It stores key-value pairs in a balanced binary search tree, allowing you to perform most operations in logarithmic time.
 
 ```java
 NavigableMap<LocalDate, BigDecimal> baseInterestRates = new TreeMap<>();
@@ -240,8 +242,9 @@ baseInterestRates.put(LocalDate.of(2021, 1, 1), BigDecimal.valueOf(1.5));
 baseInterestRates.put(LocalDate.of(2021, 6, 1), BigDecimal.valueOf(1.75));
 ```
 
-look up the base interest rate for the current date using the floorEntry/floorKey(date) method.
-Both have a time complexity of O(log n), 
+- look up the base interest rate for the current date using the floorEntry/floorKey(date) method.
+
+- Both have a time complexity of O(log n), 
     where n is the number of entries in the map. 
     The only difference is that floorEntry() returns the entire entry (key-value pair), whereas floorKey() returns just the key.
 (support the later question)
