@@ -1,18 +1,23 @@
 # Terminologies to Understand
 
 - **Start and End Date of the Loan:** The beginning and ending dates of the loan period. 
+
 The calculator computes interest for each day between these two dates.
 
-- **Loan Amount:** The principal amount borrowed. 
+- **Loan Amount:** The principal amount borrowed.
+
 This is the initial sum of money that the borrower owes to the lender.
 
-- **Loan Currency:** The currency in which the loan is denominated, such as USD, EUR, or GBP. 
+- **Loan Currency:** The currency in which the loan is denominated, such as USD, EUR, or GBP.
+
 The interest calculation will be in the same currency.
 
 - **Base Interest Rate:** The percentage used in the interest calculation that represents the cost of borrowing the loan amount. 
+
 It is the primary component of the interest rate charged on the loan.
 
 - **Margin:** An additional percentage added to the base interest rate. 
+
 This represents the lender's profit or compensation for the risk of lending.
 
 - **Daily Interest accrual amount:** The interest accrued on the loan for each specific day.
@@ -26,6 +31,7 @@ This represents the lender's profit or compensation for the risk of lending.
 - **Accrual Date:** The specific date on which the interest accrual is calculated.
 
 - **Syndicated Loan:** A type of loan where multiple financial institutions, also known as lenders or participants, come together to provide funds to a single borrower. 
+
 The main goal of a syndicated loan is to spread the risk associated with lending a large sum of money across multiple lenders.
 
 # Loan Interest Calculator
@@ -459,12 +465,14 @@ In summary these ideas will promote modularity and reusability, making it easier
 
 ## 4. Scaling the solution to handle a large number of calculations per second.
 
+
 **Problem 1: Increased CPU usage due to complex calculations.**
 
 **Solution:** 
 - Optimize the calculation algorithm to reduce CPU usage. 
 - Profile the code to identify performance bottlenecks and improve the efficiency of the calculation algorithm. 
 - Consider using parallelism to distribute the workload across multiple CPU cores.
+
 
 **Problem 2: Memory limitations due to storing large amounts of data.**
 
@@ -473,6 +481,7 @@ In summary these ideas will promote modularity and reusability, making it easier
 - Use a least recently used (LRU) cache or other caching algorithms to store only the most relevant data in memory. 
 - For long-term storage, consider using a database to offload memory usage to disk storage.
 
+
 **Problem 3: Increased response time due to high load.**
 
 **Solution:** 
@@ -480,11 +489,13 @@ In summary these ideas will promote modularity and reusability, making it easier
 - This can be achieved using horizontal scaling, where multiple instances of the application run in parallel to share the load. 
 - Use a load balancer to evenly distribute incoming requests among available instances.
 
+
 **Problem 4: Concurrent access to shared resources.**
 
 **Solution:** 
 - Use synchronization mechanisms, such as locks or semaphores, to ensure that only one thread can access shared resources at a time. 
 - Alternatively, use an optimistic concurrency control strategy like compare-and-swap (CAS) to reduce contention and improve performance.
+
 
 **Problem 5: Network latency due to remote API calls.**
 
@@ -493,6 +504,7 @@ In summary these ideas will promote modularity and reusability, making it easier
 - Consider using a thread pool to manage a pool of worker threads that can handle multiple API calls concurrently. 
 - You can also implement a retry mechanism to handle transient network issues and improve the overall reliability of the application.
 
+
 **Problem 6: Database bottlenecks due to a high number of read/write operations.**
 
 **Solution:** 
@@ -500,7 +512,9 @@ In summary these ideas will promote modularity and reusability, making it easier
 - Use proper indexing, caching, and connection pooling techniques to improve database performance.
 - You can also consider using a NoSQL database or an in-memory data store like Redis for faster read and write operations.
 
+
 ## 5. Improving API reliability and performance for large queries.
+
 
 **Circuit Breaker Pattern:**
 
@@ -508,37 +522,50 @@ In summary these ideas will promote modularity and reusability, making it easier
 - When the circuit breaker detects a problem, it "trips" and temporarily stops sending requests to the failing service, allowing it to recover. 
 - After a predefined period, the circuit breaker checks if the service is healthy again and resumes sending requests if it is.
 
+
 **Retry Mechanism:**
 
 - Incorporate a retry mechanism that automatically retries failed requests with exponential backoff and jitter. 
 - This strategy helps to alleviate the impact of transient network issues by giving the remote service a chance to recover before the next retry. 
 - The exponential backoff helps to prevent overwhelming the remote service, while the jitter helps to avoid synchronization among retries.
 
+
+
 **Timeout Management:**
 
 - Set appropriate timeouts for API requests to ensure that the application does not hang indefinitely when waiting for a response. 
 - By enforcing a timeout, the application can fail fast and recover gracefully in case of a slow or unresponsive remote service.
+
+
 
 **Rate Limiting and Throttling:**
 
 - Implement rate limiting and throttling to control the number of requests sent to the API in a given time frame. 
 - This can help prevent overloading the API and ensures fair usage among clients. You can use token bucket or leaky bucket algorithms to achieve this.
 
+
+
 **Caching:**
 
 - Cache the results of API calls to reduce the number of requests made to the API and improve the performance of large queries. 
 - You can use a cache with an appropriate eviction policy (e.g., LRU, LFU) to store the most frequently accessed data in memory.
+
+
 
 **Pagination and Filtering:**
 
 - For large queries, implement pagination and filtering mechanisms to limit the amount of data returned by the API. 
 - By returning smaller chunks of data, you can improve the response time and reduce the load on the API.
 
+
+
 **Load Balancing:**
 
 - Use load balancing to distribute incoming API requests across multiple instances of your application. 
 - This helps to improve overall performance and ensure that a single instance does not become a bottleneck. 
 - You can use round-robin, least connections, or other load balancing algorithms to achieve this.
+
+
 
 **Monitoring and Alerting:**
 
