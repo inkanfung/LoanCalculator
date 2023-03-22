@@ -84,8 +84,10 @@ The loanOutputs list will contain the daily accrued interest details for each da
 ## 1. Handling non-business days (weekends and bank holidays) for the start and end dates of the loan.
 1. I was thinking brute force method first maybe HardCode the dates into a set in the inputLoans object/beans E.g.
 
+
 <pre>
 ```java
+
 private boolean isBusinessDay(LocalDate date) {
     // Check if the date is a weekend (Saturday or Sunday)
     DayOfWeek dayOfWeek = date.getDayOfWeek();
@@ -111,6 +113,7 @@ private Set<LocalDate> getHolidays() {
     // Add more holidays as needed
     return holidays;
 }
+
 ```
 </pre>
 
@@ -118,6 +121,7 @@ Plus a validation in the validate method:
   
 <pre>
 ```java  
+
   public void validate() throws IllegalArgumentException {
     // ...
     if (!isBusinessDay(startDate)) {
@@ -127,6 +131,7 @@ Plus a validation in the validate method:
         throw new IllegalArgumentException("End date must be a business day.");
     }
 }
+
 ```
 </pre>
 
