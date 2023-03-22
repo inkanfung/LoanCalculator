@@ -1,35 +1,26 @@
 # Terminologies to Understand
-Start and End Date of the Loan: 
-The beginning and ending dates of the loan period. The calculator computes interest for each day between these two dates.
 
-Loan Amount: 
-The principal amount borrowed. This is the initial sum of money that the borrower owes to the lender.
+- **Start and End Date of the Loan:** The beginning and ending dates of the loan period. The calculator computes interest for each day between these two dates.
 
-Loan Currency: 
-The currency in which the loan is denominated, such as USD, EUR, or GBP. The interest calculation will be in the same currency.
+- **Loan Amount:** The principal amount borrowed. This is the initial sum of money that the borrower owes to the lender.
 
-Base Interest Rate: 
-The percentage used in the interest calculation that represents the cost of borrowing the loan amount. It is the primary component of the interest rate charged on the loan.
+- **Loan Currency:** The currency in which the loan is denominated, such as USD, EUR, or GBP. The interest calculation will be in the same currency.
 
-Margin: 
-An additional percentage added to the base interest rate. This represents the lender's profit or compensation for the risk of lending.
+- **Base Interest Rate:** The percentage used in the interest calculation that represents the cost of borrowing the loan amount. It is the primary component of the interest rate charged on the loan.
 
-Daily Interest accrual amount: 
-The interest accrued on the loan for each specific day.
+- **Margin:** An additional percentage added to the base interest rate. This represents the lender's profit or compensation for the risk of lending.
 
-Number of days elapsed until the accrued date: 
-The total number of days passed since the start date of the loan until the current accrual date.
+- **Daily Interest accrual amount:** The interest accrued on the loan for each specific day.
 
-Daily Interest Amount without margin: 
-The interest amount calculated using only the base interest rate, without considering the margin.
+- **Number of days elapsed until the accrued date:** The total number of days passed since the start date of the loan until the current accrual date.
 
-Daily Interest Amount with margin: 
-The interest amount calculated using both the base interest rate and the margin.
-Accrual Date: The specific date on which the interest accrual is calculated.
+- **Daily Interest Amount without margin:** The interest amount calculated using only the base interest rate, without considering the margin.
 
-Syndicated Loan:
-A type of loan where multiple financial institutions, also known as lenders or participants, come together to provide funds to a single borrower. 
-The main goal of a syndicated loan is to spread the risk associated with lending a large sum of money across multiple lenders.
+- **Daily Interest Amount with margin:** The interest amount calculated using both the base interest rate and the margin.
+
+- **Accrual Date:** The specific date on which the interest accrual is calculated.
+
+- **Syndicated Loan:** A type of loan where multiple financial institutions, also known as lenders or participants, come together to provide funds to a single borrower. The main goal of a syndicated loan is to spread the risk associated with lending a large sum of money across multiple lenders.
 
 # Loan Interest Calculator
 A simple Java-based Loan Interest Calculator for bank customers. 
