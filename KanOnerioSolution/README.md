@@ -60,22 +60,18 @@ Total interest = Rounded daily interest amount * loan period = 1.64 * 32 = 52.48
 - Can be extended to handle different interest rate timeseries and additional financial products.
 
 # How to Use
-Clone or download the repository to your local machine.
 
-Open the project in your favorite Java IDE or build tool (e.g., IntelliJ IDEA, Eclipse, or Maven).
-
-Ensure you have Java 8 or later installed on your system.
-
-Run the Main class, which contains the sample usage of the LoanCalculator.
-
-The loanOutputs list will contain the daily accrued interest details for each day between the start and end date of the loan.
+1. Clone or download the repository to your local machine.
+2. Open the project in your favorite Java IDE or build tool (e.g., IntelliJ IDEA, Eclipse, or Maven).
+3. Ensure you have Java 8 or later installed on your system.
+4. Run the Main class, which contains the sample usage of the LoanCalculator.
+5. The loanOutputs list will contain the daily accrued interest details for each day between the start and end date of the loan.
 
 # Project Extension Ideas
 
 ## 1. Handling non-business days (weekends and bank holidays) for the start and end dates of the loan.
 
 1. I was thinking brute force method first maybe HardCode the dates into a set in the inputLoans object/beans E.g.
-
 
 <pre>
 ```java
@@ -127,22 +123,22 @@ Plus a validation in the validate method:
 ```
 </pre>
 
+
 2. The previous method is convenient but is very prone to errors from human/input users. So we can maybe call some external API which I did dive on:
  
-  Nager.Date API (https://date.nager.at/): 
-  
+ - Nager.Date API (https://date.nager.at/):
+
   Nager.Date is a free, open-source API that provides information about public holidays for various countries. You can find more details and documentation at https://date.nager.at/swagger/index.html.
 
-  Enrico Service (https://kayaposoft.com/enrico/): 
-  
+- Enrico Service (https://kayaposoft.com/enrico/):
+
   Enrico Service is a free API that provides public holiday information for countries in Europe. You can find more information and documentation at https://kayaposoft.com/enrico/.
 
-  Calendarific API (https://calendarific.com/): Calendarific is a global holiday API that provides information about holidays and observances for more than 200 countries. They offer both free and paid plans with varying limits on the number of API calls. You can find more information and documentation at https://calendarific.com/.
-  
-  
-In java we can use java.net.HttpURLConnection:
-  
-  
+- Calendarific API (https://calendarific.com/): Calendarific is a global holiday API that provides information about holidays and observances for more than 200 countries. They offer both free and paid plans with varying limits on the number of API calls. You can find more information and documentation at https://calendarific.com/.
+
+In Java, we can use java.net.HttpURLConnection:
+
+```java
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
