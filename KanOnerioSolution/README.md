@@ -273,30 +273,31 @@ public class InterestRateTimeseries {
 }
 ```
 
-3. To elaborate on Navigable Map solution its better than Map solution but in terms of time complexity but is also prone to input errors
+3. To elaborate on Navigable Map solution its better than Map solution but in terms of time complexity however its also prone to input errors
+
     So I again looked at available APIs: fetch historical base interest rates from an external data source or API, 
     like the FRED (Federal Reserve Economic Data) or the European Central Bank's Statistical Data Warehouse. 
     This will allow to use real-world data in your calculations.
     
-    The Federal Reserve Economic Data (FRED) is a vast database of economic data provided by the Federal Reserve Bank of St. Louis. 
+    - The Federal Reserve Economic Data (FRED) is a vast database of economic data provided by the Federal Reserve Bank of St. Louis. 
     
-    It contains data on interest rates, exchange rates, GDP, inflation, and much more...
+    - It contains data on interest rates, exchange rates, GDP, inflation, and much more...
     
-    FRED API = https://api.stlouisfed.org/fred/series/observations?series_id=FEDFUNDS&api_key=YOUR_API_KEY&file_type=json
+    - FRED API = https://api.stlouisfed.org/fred/series/observations?series_id=FEDFUNDS&api_key=YOUR_API_KEY&file_type=json
     
-    Once fetched the data, advised to parse the JSON response and store the base interest rates in a NavigableMap.
+    - Once fetched the data, advised to parse the JSON response and store the base interest rates in a NavigableMap.
     
-    FRED API has rate limits cache the results to avoid hitting those limits frequently. 
+    - FRED API has rate limits cache the results to avoid hitting those limits frequently. 
     
-    Additionally, you should handle errors and edge cases, such as missing data or API downtimes.
+    - Additionally, you should handle errors and edge cases, such as missing data or API downtimes.
     
-    By using the FRED API, you can make your loan interest calculator more accurate and up-to-date with real-world data.
-    
+    - By using the FRED API, you can make your loan interest calculator more accurate and up-to-date with real-world data.
     
     
     Example Implementation: 
     
     
+    ```java
     public NavigableMap<LocalDate, BigDecimal> fetchBaseInterestRates(String seriesId, String apiKey) 
     {
     // Build the URL for the FRED API request
@@ -325,15 +326,17 @@ public class InterestRateTimeseries {
         throw new RuntimeException("Error fetching base interest rates from FRED API", e);
     }
 }
+```
+        
+        
+Things to pass to the Param and example of calling the method:          
 
-        
-        
-Things to pass to the Param and example of calling the method:                                                                                                   
-                                                                                                   
+
+```java                                                                                                   
 String seriesId = "IR14266";
 String apiKey = "YOUR_API_KEY";
 NavigableMap<LocalDate, BigDecimal> ukBaseInterestRates = fetchBaseInterestRates(seriesId, apiKey);
-
+```
     
 
 ## 3. Adding support for other financial products, such as credit cards, using a modular approach.
