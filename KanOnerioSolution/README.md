@@ -82,7 +82,6 @@ Total interest = Rounded daily interest amount * loan period = 1.64 * 32 = 52.48
 
 1. I was thinking brute force method first maybe HardCode the dates into a set in the inputLoans object/beans E.g.
 
-<pre>
 ```java
 
 private boolean isBusinessDay(LocalDate date) {
@@ -112,11 +111,10 @@ private Set<LocalDate> getHolidays() {
 }
 
 ```
-</pre>
 
 Plus a validation in the validate method:
   
-<pre>
+
 ```java  
 
   public void validate() throws IllegalArgumentException {
@@ -130,7 +128,7 @@ Plus a validation in the validate method:
 }
 
 ```
-</pre>
+
 
 
 2. The previous method is convenient but is very prone to errors from human/input users. So we can maybe call some external API which I did dive on:
@@ -275,7 +273,9 @@ public class InterestRateTimeseries {
 
 3. To elaborate on Navigable Map solution its better than Map solution but in terms of time complexity however its also prone to input errors
 
-    So I again looked at available APIs: fetch historical base interest rates from an external data source or API, 
+    So I again looked at available APIs: 
+    
+    fetch historical base interest rates from an external data source or API, 
     like the FRED (Federal Reserve Economic Data) or the European Central Bank's Statistical Data Warehouse. 
     This will allow to use real-world data in your calculations.
     
@@ -298,6 +298,7 @@ public class InterestRateTimeseries {
     
     
     ```java
+    
     public NavigableMap<LocalDate, BigDecimal> fetchBaseInterestRates(String seriesId, String apiKey) 
     {
     // Build the URL for the FRED API request
@@ -326,16 +327,19 @@ public class InterestRateTimeseries {
         throw new RuntimeException("Error fetching base interest rates from FRED API", e);
     }
 }
+
 ```
         
         
 Things to pass to the Param and example of calling the method:          
 
 
-```java                                                                                                   
+```java   
+
 String seriesId = "IR14266";
 String apiKey = "YOUR_API_KEY";
 NavigableMap<LocalDate, BigDecimal> ukBaseInterestRates = fetchBaseInterestRates(seriesId, apiKey);
+
 ```
     
 
