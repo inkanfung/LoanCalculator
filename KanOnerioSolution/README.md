@@ -351,7 +351,105 @@ NavigableMap<LocalDate, BigDecimal> ukBaseInterestRates = fetchBaseInterestRates
 
 ## 3. Adding support for other financial products, such as credit cards, using a modular approach.
 
-1. Immediately I can of is separating the concepts in interfaces/abstract classes 
+1. Immediately I thought of is separating the concepts in interfaces/abstract classes 
+
+- Create an abstract class or interface named FinancialProduct that defines the common methods and properties for all financial products, 
+
+- such as calculateInterest() and getInterestRate(). 
+
+- The Loan and CreditCard classes can then inherit from this abstract class or implement the interface, providing their specific implementation of these methods.
+
+```java
+
+public interface FinancialProduct {
+    BigDecimal calculateInterest();
+    BigDecimal getInterestRate();
+}
+
+public class Loan implements FinancialProduct {
+    // Loan-specific implementation
+}
+
+public class CreditCard implements FinancialProduct {
+    // CreditCard-specific implementation
+}
+
+```
+
+2. Utilizing a specific Strategy pattern
+
+- Create a separate class for each interest calculation strategy. 
+
+- This would allow you to switch between different strategies depending on the financial product. 
+
+- This pattern separates the behavior (interest calculation) from the context (financial product).
+
+
+```java
+
+public interface InterestCalculationStrategy {
+    BigDecimal calculateInterest(BigDecimal principal, BigDecimal rate, int time);
+}
+
+public class SimpleInterestCalculation implements InterestCalculationStrategy {
+    // Simple interest calculation implementation
+}
+
+public class CreditCardInterestCalculation implements InterestCalculationStrategy {
+    // Credit card interest calculation implementation
+}
+
+public class Loan {
+    private InterestCalculationStrategy interestCalculationStrategy;
+    
+    // Constructor, getters, and setters
+}
+
+```
+
+3. Simply Composition over inheritance 
+
+- Instead of using inheritance, consider using composition to build financial products. 
+
+- This can be done by creating small, reusable components that can be combined to create more complex financial products. 
+
+- For example, create separate classes for InterestRate, RepaymentSchedule, and Fees. 
+
+- You can then create instances of these classes and use them to compose new financial products like Loan and CreditCard.
+
+```java
+
+public class InterestRate {
+    // Interest rate implementation
+}
+
+public class RepaymentSchedule {
+    // Repayment schedule implementation
+}
+
+public class Fees {
+    // Fees implementation
+}
+
+public class Loan {
+    private InterestRate interestRate;
+    private RepaymentSchedule repaymentSchedule;
+    private Fees fees;
+
+    // Constructor, getters, and setters
+}
+
+public class CreditCard {
+    private InterestRate interestRate;
+    private RepaymentSchedule repaymentSchedule;
+    private Fees fees;
+
+    // Constructor, getters, and setters
+}
+
+```
+
+In summary these ideas will promote modularity and reusability, making it easier to extend the current codebase with new financial products or modify existing ones.
 
 ## 4. Scaling the solution to handle a large number of calculations per second.
 
