@@ -134,7 +134,11 @@ Plus a validation in the validate method:
 
   Enrico Service is a free API that provides public holiday information for countries in Europe. You can find more information and documentation at https://kayaposoft.com/enrico/.
 
-- Calendarific API (https://calendarific.com/): Calendarific is a global holiday API that provides information about holidays and observances for more than 200 countries. They offer both free and paid plans with varying limits on the number of API calls. You can find more information and documentation at https://calendarific.com/.
+- Calendarific API (https://calendarific.com/): 
+
+  Calendarific is a global holiday API that provides information about holidays and observances for more than 200 countries. They offer both free and paid plans with varying limits on the number of API calls. 
+  You can find more information and documentation at https://calendarific.com/.
+
 
 In Java, we can use java.net.HttpURLConnection:
 
@@ -181,7 +185,7 @@ public class HolidayAPI {
         }
     }
 }
-
+```
 
 ## 2. Incorporating a timeseries of base interest rates instead of a fixed rate.
 
