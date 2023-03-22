@@ -84,6 +84,7 @@ The loanOutputs list will contain the daily accrued interest details for each da
 # 1. Handling non-business days (weekends and bank holidays) for the start and end dates of the loan.
 1. I was thinking brute force method first maybe HardCode the dates into a set in the inputLoans object/beans E.g.
 
+
 private boolean isBusinessDay(LocalDate date) {
     // Check if the date is a weekend (Saturday or Sunday)
     DayOfWeek dayOfWeek = date.getDayOfWeek();
@@ -100,41 +101,46 @@ private boolean isBusinessDay(LocalDate date) {
     return true;
 }
 
+
 private Set<LocalDate> getHolidays() {
     Set<LocalDate> holidays = new HashSet<>();
-
     // Add holidays here (e.g., New Year's Day)
     holidays.add(LocalDate.of(startDate.getYear(), 1, 1));
     holidays.add(LocalDate.of(endDate.getYear(), 1, 1));
-
     // Add more holidays as needed
-
     return holidays;
 }
 
+
 Plus a validation in the validate method:
+  
   
   public void validate() throws IllegalArgumentException {
     // ...
-
     if (!isBusinessDay(startDate)) {
         throw new IllegalArgumentException("Start date must be a business day.");
     }
-
     if (!isBusinessDay(endDate)) {
         throw new IllegalArgumentException("End date must be a business day.");
     }
 }
 
+
 2. The previous method is convenient but is very prone to errors from human/input users. So we can maybe call some external API which I did dive on:
  
-  Nager.Date API (https://date.nager.at/): Nager.Date is a free, open-source API that provides information about public holidays for various countries. You can find more details and documentation at https://date.nager.at/swagger/index.html.
+  Nager.Date API (https://date.nager.at/): 
+  
+  Nager.Date is a free, open-source API that provides information about public holidays for various countries. You can find more details and documentation at https://date.nager.at/swagger/index.html.
 
-  Enrico Service (https://kayaposoft.com/enrico/): Enrico Service is a free API that provides public holiday information for countries in Europe. You can find more information and documentation at https://kayaposoft.com/enrico/.
+  Enrico Service (https://kayaposoft.com/enrico/): 
+  
+  Enrico Service is a free API that provides public holiday information for countries in Europe. You can find more information and documentation at https://kayaposoft.com/enrico/.
 
   Calendarific API (https://calendarific.com/): Calendarific is a global holiday API that provides information about holidays and observances for more than 200 countries. They offer both free and paid plans with varying limits on the number of API calls. You can find more information and documentation at https://calendarific.com/.
   
+  
 In java we can use java.net.HttpURLConnection:
+  
   
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -143,11 +149,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HolidayAPI {
-
     public static void main(String[] args) {
         String countryCode = "GB";
         int year = 2023;
-
         try {
             String jsonResponse = getHolidays(countryCode, year);
             System.out.println(jsonResponse);
@@ -159,24 +163,19 @@ public class HolidayAPI {
     public static String getHolidays(String countryCode, int year) throws IOException {
         String urlString = "https://date.nager.at/api/v3/publicholidays/" + year + "/" + countryCode;
         URL url = new URL(urlString);
-
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setConnectTimeout(5000);
         connection.setReadTimeout(5000);
-
         int responseCode = connection.getResponseCode();
-
         if (responseCode == HttpURLConnection.HTTP_OK) {
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String inputLine;
             StringBuilder content = new StringBuilder();
-
             while ((inputLine = in.readLine()) != null) {
                 content.append(inputLine);
             }
-
             in.close();
             connection.disconnect();
             return content.toString();
@@ -186,19 +185,18 @@ public class HolidayAPI {
     }
 }
 
+
 # 2. Incorporating a timeseries of base interest rates instead of a fixed rate.
 
 1. First idea that came to mind was using a Map stores the holidays as key-value pairs.
 where the key is a LocalDate object representing the date of the holiday, and the value is a String representing the name of the holiday. 
 
+
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.HashMap;
-
 public class HolidayCalendar {
-
     private static final Map<LocalDate, String> HOLIDAYS = new HashMap<>();
-
     static {
         HOLIDAYS.put(LocalDate.of(2023, 1, 1), "New Year's Day");
         HOLIDAYS.put(LocalDate.of(2023, 4, 14), "Good Friday");
@@ -209,25 +207,21 @@ public class HolidayCalendar {
         HOLIDAYS.put(LocalDate.of(2023, 12, 25), "Christmas Day");
         HOLIDAYS.put(LocalDate.of(2023, 12, 26), "Boxing Day");
     }
-
     public static boolean isHoliday(LocalDate date) {
         return HOLIDAYS.containsKey(date);
     }
-
     public static String getHolidayName(LocalDate date) {
         return HOLIDAYS.get(date);
     }
 }
 
-getHolidayName method returns the name of a holiday given its date, by looking up the corresponding value in the HOLIDAYS map.
 
 2. Deep Dive and found a more relevant solution called - NavigableMap is a SortedMap with additional functionality to navigate through the keys or entries. 
 
 The keys in this case are dates, and the values are the base interest rates.
-
 A TreeMap is a popular implementation of the NavigableMap interface. 
-
 It stores key-value pairs in a balanced binary search tree, allowing you to perform most operations in logarithmic time.
+
 
 NavigableMap<LocalDate, BigDecimal> baseInterestRates = new TreeMap<>();
 baseInterestRates.put(LocalDate.of(2020, 1, 1), BigDecimal.valueOf(2.5));
@@ -235,28 +229,27 @@ baseInterestRates.put(LocalDate.of(2020, 7, 1), BigDecimal.valueOf(2.0));
 baseInterestRates.put(LocalDate.of(2021, 1, 1), BigDecimal.valueOf(1.5));
 baseInterestRates.put(LocalDate.of(2021, 6, 1), BigDecimal.valueOf(1.75));
 
+
 look up the base interest rate for the current date using the floorEntry/floorKey(date) method.
 Both have a time complexity of O(log n), 
     where n is the number of entries in the map. 
     The only difference is that floorEntry() returns the entire entry (key-value pair), whereas floorKey() returns just the key.
 (support the later question)
     
+    
+    
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.NavigableMap;
 import java.util.TreeMap;
-
 public class InterestRateTimeseries {
-
     private static final NavigableMap<LocalDate, BigDecimal> BASE_INTEREST_RATES;
-
     static {
         BASE_INTEREST_RATES = new TreeMap<>();
         BASE_INTEREST_RATES.put(LocalDate.of(2021, 1, 1), BigDecimal.valueOf(0.5));
         BASE_INTEREST_RATES.put(LocalDate.of(2021, 6, 1), BigDecimal.valueOf(0.6));
         BASE_INTEREST_RATES.put(LocalDate.of(2022, 1, 1), BigDecimal.valueOf(0.7));
     }
-
     public static BigDecimal getBaseInterestRate(LocalDate date) {
         LocalDate rateEffectiveDate = BASE_INTEREST_RATES.floorKey(date);
         if (rateEffectiveDate == null) {
@@ -265,6 +258,7 @@ public class InterestRateTimeseries {
         return BASE_INTEREST_RATES.get(rateEffectiveDate);
     }
 }
+
 
 3. To elaborate on Navigable Map solution its better than Map solution but in terms of time complexity but is also prone to input errors
     So I again looked at available APIs: fetch historical base interest rates from an external data source or API, 
@@ -292,45 +286,35 @@ public class InterestRateTimeseries {
     
     public NavigableMap<LocalDate, BigDecimal> fetchBaseInterestRates(String seriesId, String apiKey) 
     {
-    
     // Build the URL for the FRED API request
-    
     String urlString = String.format("https://api.stlouisfed.org/fred/series/observations?series_id=%s&api_key=%s&file_type=json", seriesId, apiKey);
-
     // Use the Apache HttpClient to send a GET request to the FRED API
-    
     HttpClient httpClient = HttpClientBuilder.create().build();
     HttpGet httpGet = new HttpGet(urlString);
     HttpResponse httpResponse;
-
     try {
         httpResponse = httpClient.execute(httpGet);
         HttpEntity httpEntity = httpResponse.getEntity();
         String responseString = EntityUtils.toString(httpEntity, StandardCharsets.UTF_8);
-
         // Parse the JSON response and store the base interest rates in a NavigableMap
         JSONObject jsonResponse = new JSONObject(responseString);
         JSONArray observations = jsonResponse.getJSONArray("observations");
-
         NavigableMap<LocalDate, BigDecimal> baseInterestRates = new TreeMap<>();
-
         for (int i = 0; i < observations.length(); i++) {
             JSONObject observation = observations.getJSONObject(i);
             LocalDate date = LocalDate.parse(observation.getString("date"));
             BigDecimal value = new BigDecimal(observation.getString("value"));
-
             baseInterestRates.put(date, value);
         }
-
         return baseInterestRates;
-
     } catch (IOException e) {
         e.printStackTrace();
         throw new RuntimeException("Error fetching base interest rates from FRED API", e);
     }
 }
 
-                                                                                                   
+        
+        
 Things to pass to the Param and example of calling the method:                                                                                                   
                                                                                                    
 String seriesId = "IR14266";
