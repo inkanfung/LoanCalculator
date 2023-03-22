@@ -301,12 +301,17 @@ public class InterestRateTimeseries {
     
     public NavigableMap<LocalDate, BigDecimal> fetchBaseInterestRates(String seriesId, String apiKey) 
     {
+    
     // Build the URL for the FRED API request
     String urlString = String.format("https://api.stlouisfed.org/fred/series/observations?series_id=%s&api_key=%s&file_type=json", seriesId, apiKey);
+    
     // Use the Apache HttpClient to send a GET request to the FRED API
     HttpClient httpClient = HttpClientBuilder.create().build();
+    
     HttpGet httpGet = new HttpGet(urlString);
+    
     HttpResponse httpResponse;
+    
     try {
         httpResponse = httpClient.execute(httpGet);
         HttpEntity httpEntity = httpResponse.getEntity();
@@ -315,28 +320,33 @@ public class InterestRateTimeseries {
         JSONObject jsonResponse = new JSONObject(responseString);
         JSONArray observations = jsonResponse.getJSONArray("observations");
         NavigableMap<LocalDate, BigDecimal> baseInterestRates = new TreeMap<>();
+        
         for (int i = 0; i < observations.length(); i++) {
             JSONObject observation = observations.getJSONObject(i);
             LocalDate date = LocalDate.parse(observation.getString("date"));
             BigDecimal value = new BigDecimal(observation.getString("value"));
             baseInterestRates.put(date, value);
         }
+        
         return baseInterestRates;
+        
     } catch (IOException e) {
+    
         e.printStackTrace();
+        
         throw new RuntimeException("Error fetching base interest rates from FRED API", e);
     }
 }
 
 ```
         
-        
-//Things to pass to the Param and example of calling the method:          
+       
+Things to pass to the Param and example of calling the method:          
 
 String seriesId = "IR14266";
 String apiKey = "YOUR_API_KEY";
 NavigableMap<LocalDate, BigDecimal> ukBaseInterestRates = fetchBaseInterestRates(seriesId, apiKey);
-
+```
     
 
 ## 3. Adding support for other financial products, such as credit cards, using a modular approach.
