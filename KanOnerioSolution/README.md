@@ -328,17 +328,15 @@ public class InterestRateTimeseries {
     }
 }
 
-
+```
         
         
 //Things to pass to the Param and example of calling the method:          
-
 
 String seriesId = "IR14266";
 String apiKey = "YOUR_API_KEY";
 NavigableMap<LocalDate, BigDecimal> ukBaseInterestRates = fetchBaseInterestRates(seriesId, apiKey);
 
-```
     
 
 ## 3. Adding support for other financial products, such as credit cards, using a modular approach.
