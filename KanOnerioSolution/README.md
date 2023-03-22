@@ -82,6 +82,7 @@ The loanOutputs list will contain the daily accrued interest details for each da
 # Project Extension Ideas
 
 ## 1. Handling non-business days (weekends and bank holidays) for the start and end dates of the loan.
+
 1. I was thinking brute force method first maybe HardCode the dates into a set in the inputLoans object/beans E.g.
 
 
@@ -333,6 +334,8 @@ NavigableMap<LocalDate, BigDecimal> ukBaseInterestRates = fetchBaseInterestRates
     
 
 ## 3. Adding support for other financial products, such as credit cards, using a modular approach.
+
+1. Immediately I can of is separating the concepts in interfaces/abstract classes 
 
 ## 4. Scaling the solution to handle a large number of calculations per second.
 
