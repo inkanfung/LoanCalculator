@@ -22,11 +22,8 @@ public class loanCalculator {
 
 
         //loop that iterates through each day between the start and end dates (inclusive)
-        //performs calculations for each day
-        //loop continues until currentDate becomes greater than the end date.
         while(!currentDate.isAfter(LoanInput.getEndDate())){
 
-            //calculate the number of days elapsed from the start date to the currentDate
             //ChronoUnit is an enum in the java.time.temporal package
             //represents a unit of time, such as years, months, days, hours, minutes, and seconds
             //used to measure the amount of time between two temporal objects or to manipulate a temporal object by adding or subtracting a specific amount of time
@@ -35,7 +32,6 @@ public class loanCalculator {
             int daysElapsed = (int) ChronoUnit.DAYS.between(LoanInput.getStartDate(), currentDate);
 
             //the dailyInterestRate is calculated based on the annual interest rate (with margin),
-            //and the dailyInterestAmount is calculated using the adjusted simple interest formula.
             //The dailyInterestAmountWithoutMargin is also calculated for reference.
 
             //calculate the daily interest without margin by calling calculateSimpleInterest with the loan amount, base interest rate, and days elapsed
@@ -59,7 +55,6 @@ public class loanCalculator {
 
         }
 
-        //objects containing the daily interest calculations
         return loanOutputList;
     }
 
@@ -72,10 +67,13 @@ public class loanCalculator {
     }
 
     public static BigDecimal getTotalInterest(List<loanOutput> loanOutputList) {
+
         BigDecimal totalInterest = BigDecimal.ZERO;
+
         for (loanOutput output : loanOutputList) {
             totalInterest = totalInterest.add(output.getDailyInterestAccrual());
         }
+
         return totalInterest;
     }
 
