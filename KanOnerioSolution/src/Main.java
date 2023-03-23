@@ -86,11 +86,35 @@ public class Main {
 
         // Retrieve and print the updated history of loan calculations
         LoanCalculations = LoanHistory.getLoanCalculationList();
+
         for (loanCalculations LoanCalculation : LoanCalculations) {
             System.out.println("Loan Input: " + LoanCalculation.getLoanInput());
             System.out.println("Loan Outputs: " + LoanCalculation.getLoanOutputList());
         }
 
+        //print new line
+        System.out.println();
+
+
+        // Print the history of loan calculations
+        for (loanCalculations LoanCalculation : LoanCalculations) {
+
+            System.out.println("Loan Input: " + LoanCalculation.getLoanInput());
+
+            List<loanOutput> LoanOutputs = LoanCalculation.getLoanOutputList();
+
+            System.out.println("Loan Outputs: ");
+
+            for (loanOutput output : LoanOutputs) {
+                // Access individual values of loanOutput object here
+                System.out.println("Days Elapsed: " + output.getDaysElapsed());
+                System.out.println("Accural Date: " + output.getAccrualDate());
+                System.out.println("Daily Interest Accural: " + output.getDailyInterestAccrual());
+                System.out.println("Daily Interest With Margin: " + output.getDailyInterestWithMargin());
+                System.out.println("Daily Interest Without Margin: " + output.getDailyInterestWithoutMargin());
+
+            }
+        }
 
 
 
