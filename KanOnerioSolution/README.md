@@ -92,7 +92,7 @@ Total interest = Rounded daily interest amount * loan period = 1.64 * 32 = 52.48
 
 ## 1. Handling non-business days (weekends and bank holidays) for the start and end dates of the loan.
 
-1. I was thinking brute force method first maybe HardCode the dates into a set in the inputLoans object/beans E.g.
+1. I was thinking brute force method first maybe HardCode the dates into a set or hashmap in the inputLoans object/beans E.g.
 
 ```java
 
@@ -141,7 +141,34 @@ Plus a validation in the validate method:
 
 ```
 
+Using a Map stores the holidays as key-value pairs.
+where the key is a LocalDate object representing the date of the holiday
+and the value is a String representing the name of the holiday. 
 
+```java
+import java.time.LocalDate;
+import java.util.Map;
+import java.util.HashMap;
+public class HolidayCalendar {
+    private static final Map<LocalDate, String> HOLIDAYS = new HashMap<>();
+    static {
+        HOLIDAYS.put(LocalDate.of(2023, 1, 1), "New Year's Day");
+        HOLIDAYS.put(LocalDate.of(2023, 4, 14), "Good Friday");
+        HOLIDAYS.put(LocalDate.of(2023, 4, 17), "Easter Monday");
+        HOLIDAYS.put(LocalDate.of(2023, 5, 1), "May Day");
+        HOLIDAYS.put(LocalDate.of(2023, 5, 29), "Spring Bank Holiday");
+        HOLIDAYS.put(LocalDate.of(2023, 8, 28), "Summer Bank Holiday");
+        HOLIDAYS.put(LocalDate.of(2023, 12, 25), "Christmas Day");
+        HOLIDAYS.put(LocalDate.of(2023, 12, 26), "Boxing Day");
+    }
+    public static boolean isHoliday(LocalDate date) {
+        return HOLIDAYS.containsKey(date);
+    }
+    public static String getHolidayName(LocalDate date) {
+        return HOLIDAYS.get(date);
+    }
+}
+```
 
 2. The previous method is convenient but is very prone to errors from human/input users. So we can maybe call some external API which I did dive on:
  
