@@ -18,4 +18,12 @@ public class loanCalculations {
         return LoanOutputList;
     }
 
+    public void setLoanInput(loanInput LoanInput) {
+        this.LoanInput = LoanInput;
+    }
+
+    public void setLoanOutputList(List<loanOutput> LoanOutputList) {
+        this.LoanOutputList = LoanOutputList;
+    }
+
 }
