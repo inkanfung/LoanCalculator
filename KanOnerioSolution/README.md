@@ -239,27 +239,36 @@ public class HolidayAPI {
 where the key is a LocalDate object representing the date of the holiday, and the value is a String representing the name of the holiday. 
 
 ```java
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Map;
 import java.util.HashMap;
-public class HolidayCalendar {
-    private static final Map<LocalDate, String> HOLIDAYS = new HashMap<>();
+import java.util.Map;
+
+public class InterestRateTimeseries {
+    private static final Map<LocalDate, BigDecimal> BASE_INTEREST_RATES;
+
     static {
-        HOLIDAYS.put(LocalDate.of(2023, 1, 1), "New Year's Day");
-        HOLIDAYS.put(LocalDate.of(2023, 4, 14), "Good Friday");
-        HOLIDAYS.put(LocalDate.of(2023, 4, 17), "Easter Monday");
-        HOLIDAYS.put(LocalDate.of(2023, 5, 1), "May Day");
-        HOLIDAYS.put(LocalDate.of(2023, 5, 29), "Spring Bank Holiday");
-        HOLIDAYS.put(LocalDate.of(2023, 8, 28), "Summer Bank Holiday");
-        HOLIDAYS.put(LocalDate.of(2023, 12, 25), "Christmas Day");
-        HOLIDAYS.put(LocalDate.of(2023, 12, 26), "Boxing Day");
+        BASE_INTEREST_RATES = new HashMap<>();
+        BASE_INTEREST_RATES.put(LocalDate.of(2021, 1, 1), BigDecimal.valueOf(0.5));
+        BASE_INTEREST_RATES.put(LocalDate.of(2021, 6, 1), BigDecimal.valueOf(0.6));
+        BASE_INTEREST_RATES.put(LocalDate.of(2022, 1, 1), BigDecimal.valueOf(0.7));
     }
-    public static boolean isHoliday(LocalDate date) {
-        return HOLIDAYS.containsKey(date);
+
+    public static BigDecimal getBaseInterestRate(LocalDate date) {
+        LocalDate rateEffectiveDate = null;
+        for (LocalDate key : BASE_INTEREST_RATES.keySet()) {
+            if (key.compareTo(date) <= 0) {
+                if (rateEffectiveDate == null || key.compareTo(rateEffectiveDate) > 0) {
+                    rateEffectiveDate = key;
+                }
+        }
+}
+
+    if (rateEffectiveDate == null) {
+        throw new IllegalArgumentException("No base interest rate data available for the given date.");
     }
-    public static String getHolidayName(LocalDate date) {
-        return HOLIDAYS.get(date);
-    }
+
+    return BASE_INTEREST_RATES.get(rateEffectiveDate);
 }
 ```
 
