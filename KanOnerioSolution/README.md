@@ -235,8 +235,8 @@ public class HolidayAPI {
 
 ## 2. Incorporating a timeseries of base interest rates instead of a fixed rate.
 
-1. First idea that came to mind was using a Map stores the holidays as key-value pairs.
-where the key is a LocalDate object representing the date of the holiday, and the value is a String representing the name of the holiday. 
+1. First idea that came to mind was using a Map stores the dates and baserates as key pair values,
+where the key is a LocalDate object representing the date of the baserates value and is represented by a bigDecimal value.
 
 ```java
 import java.math.BigDecimal;
@@ -272,13 +272,22 @@ public class InterestRateTimeseries {
 }
 ```
 
-2. Deep Dive and found a more relevant solution called - NavigableMap is a SortedMap with additional functionality to navigate through the keys or entries. 
+- `getBaseInterestRate` goes through the key set of the HashMap 
+- searches for the highest key that is less than or equal to the given date
+- similar to functionality to the `floorKey()` method which will be explained next
+- HashMap instead of a NavigableMap like TreeMap would mean losing the ability to easily search for keys less than or equal to a given key
+- Because HashMap solution uses a for-loop to iterate through all the keys in the key set 
+- In the worst case, this loop has a time complexity of O(n), where n is the number of entries in the map
+- HashMap generally has faster insertion, deletion, and retrieval time complexities (O(1) on average) compared to TreeMap (O(log n))
+- If your use case involves a lot of insertions, deletions, or direct key lookups, HashMap may perform better overall.
 
-- The keys in this case are dates, and the values are the base interest rates.
+2. Deep Dive and found a more relevant solution called - NavigableMap is a specific type of map that provides additional functionality not available in normal maps or hashmaps 
 
-- A TreeMap is a popular implementation of the NavigableMap interface. 
+- Navigable maps, like TreeMaps in Java, are typically implemented as balanced binary search trees (e.g., Red-Black Trees)
+- most operations, such as insertion, deletion, and search, is O(log n), whereas for HashMaps, it is O(1) on average 
+- if performance is critical and the additional features of navigable maps are not required, a HashMap may be a better choice
+- Navigable maps tend to consume more memory than HashMaps due to their tree-based structure and additional metadata required to maintain the tree's balance. 
 
-- It stores key-value pairs in a balanced binary search tree, allowing you to perform most operations in logarithmic time.
 
 ```java
 NavigableMap<LocalDate, BigDecimal> baseInterestRates = new TreeMap<>();
@@ -288,12 +297,7 @@ baseInterestRates.put(LocalDate.of(2021, 1, 1), BigDecimal.valueOf(1.5));
 baseInterestRates.put(LocalDate.of(2021, 6, 1), BigDecimal.valueOf(1.75));
 ```
 
-- look up the base interest rate for the current date using the floorEntry/floorKey(date) method.
-
-- Both have a time complexity of O(log n), 
-    where n is the number of entries in the map. 
-    The only difference is that floorEntry() returns the entire entry (key-value pair), whereas floorKey() returns just the key.
-(support the later question)
+look up the base interest rate for the current date using the floorEntry/floorKey(date) built in method.
     
     
 ```java    
@@ -319,7 +323,10 @@ public class InterestRateTimeseries {
 }
 ```
 
-3. To elaborate on Navigable Map solution its better than Map solution but in terms of time complexity however its also prone to input errors
+In summary, for the specific getBaseInterestRate method, the Navigable Solution is better
+
+
+3. To elaborate on Navigable Map solution its better than Map solution but in terms of time complexity for key searches however its also prone to input errors
 
     So I again looked at available APIs: 
     
