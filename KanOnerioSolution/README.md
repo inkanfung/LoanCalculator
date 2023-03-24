@@ -574,6 +574,8 @@ This problem occurs when an application performs a large number of read and writ
 
 **Circuit Breaker Pattern:**
 
+The Circuit Breaker Pattern is a design pattern that helps prevent repeated failures in a distributed system. It works by temporarily stopping requests to a failing service, allowing it to recover before resuming normal operations.
+
 - Implement a circuit breaker pattern to detect failures and encapsulate the logic of preventing a failure from constantly recurring. 
 - When the circuit breaker detects a problem, it "trips" and temporarily stops sending requests to the failing service, allowing it to recover. 
 - After a predefined period, the circuit breaker checks if the service is healthy again and resumes sending requests if it is.
@@ -581,13 +583,17 @@ This problem occurs when an application performs a large number of read and writ
 
 **Retry Mechanism:**
 
+A Retry Mechanism is a strategy used to handle transient failures by retrying failed requests.
+
 - Incorporate a retry mechanism that automatically retries failed requests with exponential backoff and jitter. 
-- This strategy helps to alleviate the impact of transient network issues by giving the remote service a chance to recover before the next retry. 
+- This strategy helps to alleviate the impact by giving the remote service a chance to recover before the next retry. 
 - The exponential backoff helps to prevent overwhelming the remote service, while the jitter helps to avoid synchronization among retries.
 
 
 
 **Timeout Management:**
+
+Timeout Management involves setting appropriate timeouts for API requests to prevent the application from hanging indefinitely while waiting for a response.
 
 - Set appropriate timeouts for API requests to ensure that the application does not hang indefinitely when waiting for a response. 
 - By enforcing a timeout, the application can fail fast and recover gracefully in case of a slow or unresponsive remote service.
@@ -596,12 +602,17 @@ This problem occurs when an application performs a large number of read and writ
 
 **Rate Limiting and Throttling:**
 
+Rate Limiting and Throttling are techniques used to control the number of requests sent to an API within a given time frame, preventing overloading and ensuring fair usage among clients.
+
 - Implement rate limiting and throttling to control the number of requests sent to the API in a given time frame. 
-- This can help prevent overloading the API and ensures fair usage among clients. You can use token bucket or leaky bucket algorithms to achieve this.
+- This can help prevent overloading the API and ensures fair usage among clients. 
+- You can use token bucket or leaky bucket algorithms to achieve this.
 
 
 
 **Caching:**
+
+Caching is the process of storing the results of API calls to reduce the number of requests made to the API and improve the performance of large queries.
 
 - Cache the results of API calls to reduce the number of requests made to the API and improve the performance of large queries. 
 - You can use a cache with an appropriate eviction policy (e.g., LRU, LFU) to store the most frequently accessed data in memory.
@@ -610,12 +621,16 @@ This problem occurs when an application performs a large number of read and writ
 
 **Pagination and Filtering:**
 
+Pagination and Filtering are mechanisms used to limit the amount of data returned by the API, improving response time and reducing the load on the API.
+
 - For large queries, implement pagination and filtering mechanisms to limit the amount of data returned by the API. 
 - By returning smaller chunks of data, you can improve the response time and reduce the load on the API.
 
 
 
 **Load Balancing:**
+
+Load Balancing is the process of distributing incoming API requests across multiple instances of an application, improving overall performance and preventing a single instance from becoming a bottleneck.
 
 - Use load balancing to distribute incoming API requests across multiple instances of your application. 
 - This helps to improve overall performance and ensure that a single instance does not become a bottleneck. 
@@ -624,6 +639,8 @@ This problem occurs when an application performs a large number of read and writ
 
 
 **Monitoring and Alerting:**
+
+Monitoring and Alerting are essential practices for tracking the performance and health of your API, helping you detect and address issues before they escalate into bigger problems.
 
 - Implement monitoring and alerting tools to track the performance and health of your API.
 - By continuously monitoring the API, you can detect issues early and take corrective actions before they escalate into bigger problems. 
