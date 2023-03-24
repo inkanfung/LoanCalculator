@@ -406,7 +406,7 @@ NavigableMap<LocalDate, BigDecimal> ukBaseInterestRates = fetchBaseInterestRates
 
 ## 3. Adding support for other financial products, such as credit cards, using a modular approach.
 
-**1. Immediately I thought of is separating the concepts in interfaces/abstract classes 
+1. Immediately I thought of is separating the concepts in interfaces/abstract classes 
 
 - Create an abstract class or interface named FinancialProduct that defines the common methods and properties for all financial products, 
 
@@ -431,7 +431,7 @@ public class CreditCard implements FinancialProduct {
 
 ```
 
-**2. Utilizing a specific Strategy pattern
+2. Utilizing a specific Strategy pattern
 
 - Create a separate class for each interest calculation strategy. 
 
@@ -462,7 +462,7 @@ public class Loan {
 
 ```
 
-**3. Simply Composition over inheritance 
+3. Simply Composition over inheritance 
 
 - Instead of using inheritance, consider using composition to build financial products. 
 
