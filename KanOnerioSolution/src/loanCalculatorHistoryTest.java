@@ -40,19 +40,51 @@ public class loanCalculatorHistoryTest {
 
     @Test
     public void testLoanHistory() {
-        loanInput LoanInput = new loanInput(
-                LocalDate.of(2023, 3, 15),
-                LocalDate.of(2023, 4, 15),
-                BigDecimal.valueOf(10000), "USD",
-                BigDecimal.valueOf(5),
-                BigDecimal.valueOf(1)
-        );
 
-        List<loanOutput> loanOutputList = LoanCalculator.interestCalculator(LoanInput);
+        /*  1. Adding two loan calculations to the history.
+            2. Verifying the size of the history.
+            3. Deleting a calculation from the history and verifying the new size.
+            4. Modifying and rerunning a calculation.
+            5. Verifying that the loan input in the history matches the modified input.
+         */
 
-        assertEquals(32, loanOutputList.size(), "Number of days in loanOutputList should be 32");
-        assertEquals(BigDecimal.valueOf(1.64), loanOutputList.get(0).getDailyInterestAccrual().setScale(2, BigDecimal.ROUND_HALF_UP));
-        assertEquals(BigDecimal.valueOf(1.37), loanOutputList.get(0).getDailyInterestWithoutMargin().setScale(2, BigDecimal.ROUND_HALF_UP));
+        // First loan input
+        loanInput LoanInput1 = new loanInput(LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31), BigDecimal.valueOf(10000), "USD", BigDecimal.valueOf(4.5), BigDecimal.valueOf(1.5));
+        List<loanOutput> LoanOutputs1 = loanCalculator.interestCalculator(LoanInput1);
+        LoanHistory.addCalculation(LoanInput1, LoanOutputs1);
+
+        // Second loan input
+        loanInput LoanInput2 = new loanInput(LocalDate.of(2023, 2, 1), LocalDate.of(2023, 2, 28), BigDecimal.valueOf(15000), "USD", BigDecimal.valueOf(3.5), BigDecimal.valueOf(1.0));
+        List<loanOutput> LoanOutputs2 = loanCalculator.interestCalculator(LoanInput2);
+        LoanHistory.addCalculation(LoanInput2, LoanOutputs2);
+
+        // Check the history of loan calculations
+        List<loanCalculations> LoanCalculations = LoanHistory.getLoanCalculationList();
+        assertEquals(2, LoanCalculations.size());
+
+        // Delete a calculation from the history
+        LoanHistory.deleteCalculation(0);
+
+        // Check the history again
+        LoanCalculations = LoanHistory.getLoanCalculationList();
+        assertEquals(1, LoanCalculations.size());
+
+        // Modify and rerun a calculation
+        loanInput modifiedLoanInput = new loanInput(LocalDate.of(2023, 3, 1), LocalDate.of(2023, 3, 31), BigDecimal.valueOf(20000), "USD", BigDecimal.valueOf(3.0), BigDecimal.valueOf(1.5));
+        LoanHistory.modifyAndRerunCalculation(0, modifiedLoanInput);
+
+        // Check the updated history of loan calculations
+        LoanCalculations = LoanHistory.getLoanCalculationList();
+        assertEquals(1, LoanCalculations.size());
+
+        // Verify the modified loan input in the history
+        loanInput retrievedLoanInput = LoanCalculations.get(0).getLoanInput();
+        assertEquals(modifiedLoanInput.getStartDate(), retrievedLoanInput.getStartDate());
+        assertEquals(modifiedLoanInput.getEndDate(), retrievedLoanInput.getEndDate());
+        assertEquals(modifiedLoanInput.getLoanAmount(), retrievedLoanInput.getLoanAmount());
+        assertEquals(modifiedLoanInput.getCurrency(), retrievedLoanInput.getCurrency());
+        assertEquals(modifiedLoanInput.getBaseInterestRate(), retrievedLoanInput.getBaseInterestRate());
+        assertEquals(modifiedLoanInput.getMargin(), retrievedLoanInput.getMargin());
 
     }
 
