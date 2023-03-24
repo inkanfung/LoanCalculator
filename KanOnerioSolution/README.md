@@ -511,10 +511,13 @@ In summary these ideas will promote modularity and reusability, making it easier
 
 **Problem 1: Increased CPU usage due to complex calculations.**
 
+This problem occurs when the application performs complex calculations, resulting in high CPU usage. 
+High CPU usage can slow down the application and affect its performance.
+
 **Solution:** 
-- Optimize the calculation algorithm to reduce CPU usage. 
-- Profile the code to identify performance bottlenecks and improve the efficiency of the calculation algorithm. 
-- Consider using parallelism to distribute the workload across multiple CPU cores.
+- Optimize the calculation algorithm to reduce CPU usage: Simplify the calculations and algorithms used in the application to make them more efficient.
+- Profile the code to identify performance bottlenecks: Use profiling tools to identify areas in the code that cause high CPU usage and focus on improving those areas. 
+- Use parallelism to distribute the workload across multiple CPU cores: Execute different parts of the calculations simultaneously on different CPU cores to improve performance.
 
 
 **Problem 2: Memory limitations due to storing large amounts of data.**
